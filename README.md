@@ -158,9 +158,3 @@ npm run lint       # Jalankan ESLint
 ## Tentang Proyek Ini
 
 Findora dibuat untuk mendukung proses administrasi barang hilang dan ditemukan agar lebih terstruktur, cepat, dan mudah dilacak. Fokus utamanya adalah pengalaman admin yang jelas, data yang rapi, serta proses matching yang lebih cerdas berkat kombinasi filtering tradisional dan AI.
-
-## Catatan Penting
-
-- File `.env` tidak boleh diunggah ke GitHub.
-- Folder `node_modules` dan `dist` tidak perlu dimasukkan ke repository.
-- Jika Anda ingin menambahkan dokumentasi tambahan, letakkan di folder terpisah agar README tetap ringkas dan mudah dibaca.
