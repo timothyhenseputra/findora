@@ -1,0 +1,1 @@
+ALTER TABLE "Matching" ADD COLUMN IF NOT EXISTS "matchBreakdown" TEXT;

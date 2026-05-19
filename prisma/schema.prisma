@@ -8,26 +8,31 @@ datasource db {
 }
 
 model Admin {
-  id           Int         @id @default(autoincrement())
-  name         String
-  email        String      @unique
-  passwordHash String
-  foundItems   FoundItem[]
-  createdAt    DateTime    @default(now())
+  id                Int         @id @default(autoincrement())
+  name              String
+  email             String      @unique
+  passwordHash      String
+  resetToken        String?
+  resetTokenExpires DateTime?
+  foundItems        FoundItem[]
+  createdAt         DateTime    @default(now())
 }
 
 model LostReport {
-  id          Int        @id @default(autoincrement())
-  name        String
-  nim         String
-  email       String
-  phone       String
-  category    String
-  description String
-  lostDate    DateTime
-  status      String     @default("Hilang")
-  createdAt   DateTime   @default(now())
-  matchings   Matching[]
+  id            Int            @id @default(autoincrement())
+  name          String
+  reporterType  String         @default("Mahasiswa")
+  nim           String?
+  nonStudentId  String?
+  email         String
+  phone         String
+  category      String
+  description   String
+  lostDate      DateTime
+  status        String         @default("Hilang")
+  createdAt     DateTime       @default(now())
+  matchings     Matching[]
+  notifications Notification[]
 }
 
 model FoundItem {
@@ -43,25 +48,33 @@ model FoundItem {
   description   String?
   photoUrl      String?
   status        String         @default("Ditemukan")
-  verified      Boolean        @default(false)
+  claimedByName String?
+  claimedAt     DateTime?
+  returnedAt    DateTime?
   createdAt     DateTime       @default(now())
   notifications Notification[]
   matchings     Matching[]
 }
 
 model Notification {
-  id          Int        @id @default(autoincrement())
-  foundItemId Int?
-  foundItem   FoundItem? @relation(fields: [foundItemId], references: [id])
-  message     String
-  sentAt      DateTime   @default(now())
+  id           Int         @id @default(autoincrement())
+  foundItemId  Int?
+  foundItem    FoundItem?  @relation(fields: [foundItemId], references: [id], onDelete: Cascade)
+  lostReportId Int?
+  lostReport   LostReport? @relation(fields: [lostReportId], references: [id], onDelete: Cascade)
+  message      String
+  read         Boolean     @default(false)
+  sentAt       DateTime    @default(now())
 }
 
 model Matching {
-  id           Int        @id @default(autoincrement())
-  lostReportId Int
-  foundItemId  Int
-  lostReport   LostReport @relation(fields: [lostReportId], references: [id])
-  foundItem    FoundItem  @relation(fields: [foundItemId], references: [id])
-  matchedAt    DateTime   @default(now())
+  id             Int        @id @default(autoincrement())
+  lostReportId   Int
+  foundItemId    Int
+  lostReport     LostReport @relation(fields: [lostReportId], references: [id], onDelete: Cascade)
+  foundItem      FoundItem  @relation(fields: [foundItemId], references: [id], onDelete: Cascade)
+  matchingScore  Float      @default(0.0)
+  matchBreakdown String?    @db.Text
+  matchedAt      DateTime   @default(now())
+  isConfirmed    Boolean    @default(false)
 }

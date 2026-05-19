@@ -8,6 +8,8 @@ import NotFound from "./pages/NotFound";
 import RegisterAdmin from "./pages/admin/Register";
 import Login from "./pages/admin/Login";
 import Dashboard from "./pages/admin/Dashboard";
+import Statistics from "./pages/admin/Statistics";
+import ForgotPassword from "./pages/admin/ForgotPassword";
 
 // Inisialisasi QueryClient untuk react-query
 const queryClient = new QueryClient();
@@ -31,11 +33,20 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login_admin" element={<Login />} />
           <Route path="/register_admin" element={<RegisterAdmin />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route
             path="/admin/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/statistik"
+            element={
+              <ProtectedRoute>
+                <Statistics />
               </ProtectedRoute>
             }
           />
